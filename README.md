@@ -1,2 +1,2 @@
 # Visualizacion-e-Interfaces
-Catedra del TUPAR-UNICEN
+Catedra de TUPAR-UNICEN
