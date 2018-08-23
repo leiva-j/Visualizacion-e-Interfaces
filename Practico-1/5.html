@@ -11,29 +11,20 @@
 	
 	<script>
 		var ctx = document.getElementById("canvas").getContext("2d");
-		var width = 600;
-		var height = 350;
-		var gama = width / 255 / 2;
 		
-		var imageData = ctx.createImageData(width, height);
-		
-		
-		var pixel = 0;
-		var retroceso = 0;
-		for(x=0; x<width; x++){
-			for (y=0; y<height; y++){
-				if(x <= width/2){
-					pixel = Math.floor(x / gama);
-					setPixel(imageData, x, y, pixel, pixel, 0, 255);
-				}else{
-					pixel = Math.floor((x - (width / 2)) / gama) ;
-					retroceso = 255 - pixel;
-					setPixel(imageData, x, y, 255, retroceso, 0, 255);
-				}
-			}
+		var image1 = new Image();
+		image1.src = "Imagen1.jpg";
+		image1.onload = function(){
+			myDrawImageMethod(this);
+			imageData = ctx.getImageData(0, 0, this.width, this.height);
+			
+			ctx.putImageData(imageData, 0, 0);
 		}
 		
-		ctx.putImageData(imageData, 0, 0);
+		
+		function myDrawImageMethod(image){
+			ctx.drawImage(image, 0, 0);
+		}
 		
 		function setPixel(imageData, x, y, r, g, b, a){
 			index = (x + y * imageData.width) * 4;
