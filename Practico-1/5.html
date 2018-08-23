@@ -5,8 +5,7 @@
 		<title>Clase 1 - Template</title>
 	</head>
 	<body>
-		<canvas id="canvas" width="1000" height="1000"
-		/>
+		<canvas id="canvas" width="1000" height="1000"/>
 	</body>
 	
 	<script>
@@ -16,7 +15,24 @@
 		image1.src = "Imagen1.jpg";
 		image1.onload = function(){
 			myDrawImageMethod(this);
-			imageData = ctx.getImageData(0, 0, this.width, this.height);
+			imageData = ctx.getImageData(0, 0, this.width, this.height);			
+			
+			var data = imageData.data;
+			var width = this.width;
+			var height = this.height;
+			console.log(width);
+			for(x=0; x<width; x++){
+				for (y=0; y<height; y++){
+					var index = (x + y * width) * 4;
+					var r = data[index + 0];
+					var g = data[index + 1];
+					var b = data[index + 2];
+					var gray = (r + g + b)/3;
+					data[index + 0] = gray;
+					data[index + 1] = gray;
+					data[index + 2] = gray;
+				}
+			}
 			
 			ctx.putImageData(imageData, 0, 0);
 		}
@@ -26,12 +42,21 @@
 			ctx.drawImage(image, 0, 0);
 		}
 		
-		function setPixel(imageData, x, y, r, g, b, a){
+		//--------------------------------------
+		
+		function getRed(imageData, x, y){
 			index = (x + y * imageData.width) * 4;
-			imageData.data[index+0] = r;
-			imageData.data[index+1] = g;
-			imageData.data[index+2] = b;
-			imageData.data[index+3] = a;
+			return imageData.data[index + 0];
+		}
+		
+		function getGreen(imageData, x, y){
+			index = (x + y * imageData.width) * 4;
+			return imageData.data[index + 1];
+		}
+		
+		function getBlue(imageData, x, y){
+			index = (x + y * imageData.width) * 4;
+			return imageData.data[index + 2];
 		}
 	</script>
 </html>
