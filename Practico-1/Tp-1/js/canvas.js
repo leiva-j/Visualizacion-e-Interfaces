@@ -70,10 +70,14 @@ function drawF() {
 
 function choicePencil(){
   color = "#000000";
+  grosor = document.getElementById('sliderGrosor').value;
+  grosor = parseInt(grosor);
 }
 
 function choiceErase(){
   color = "#ffffff";
+  grosor = document.getElementById('sliderGrosor').value;
+  grosor = parseInt(grosor);
 }
 
 function choiceColor(c){
@@ -127,6 +131,7 @@ function saveImg(){
   var canvas = document.getElementById("canvas");
   var imagen = canvas.toDataURL("image/png");
   this.href = imagen;
+  newFile();
 }
 
 function loadImgFija(){
@@ -306,11 +311,12 @@ ctx.putImageData(retData, 5, 5);
 }
 
 function BlurManopla(){
+  var radio = document.getElementById("sliderBlur").value;
+  radio = parseInt(radio);
   imageRef = ctx.getImageData(0, 0, width, height);
   dataRef = imageRef.data;
   imageMod = ctx.getImageData(0, 0, width, height);
   dataMod = imageMod.data;
-  radio = 3;
   longR = (2*radio) - 1;
   for(x=0; x<width; x++){
     for (y=0; y<height; y++){
@@ -320,7 +326,7 @@ function BlurManopla(){
       var puntaHright = x + radio - 1;
       var puntaVdown = y + radio - 1;
       if((puntaHleft > 0) && (puntaVup > 0)
-        && (puntaHright > 0) && (puntaVdown > 0)){
+        && (puntaHright <= width) && (puntaVdown <= height)){
         //Aca modifico
         xBlur = puntaHleft;
         yBlur = puntaVup;
@@ -353,35 +359,183 @@ function BlurManopla(){
 ctx.putImageData(imageMod, 0, 0);
 }
 
-function DectecionBorde(){
-  escalaGrises();
-  imageData = ctx.getImageData(0, 0, width, height);
-  data = imageData.data;
-  porc = 40;
-  grosorBorde = 255 * porc/ 100;
+function DectecionBordeH(imageRef, imageMod, gamaBorde){
+  dataRef = imageRef.data;
+  dataMod = imageMod.data;
   for(x=0; x<width; x++){
     for (y=0; y<height; y++){
       var index = (x + y * width) * 4;
-      var r = data[index + 0];
-      var g = data[index + 1];
-      var b = data[index + 2];
-      var a = data[index + 3];
-      var gris = (r + g + b) / 3;
-      if(gris > grosorBorde){
-        data[index + 0] = 0;
-        data[index + 1] = 0;
-        data[index + 2] = 0;
-        data[index + 3] = a;
-      }else{
-        data[index + 0] = 255;
-        data[index + 1] = 255;
-        data[index + 2] = 255;
-        data[index + 3] = a;
+      var puntaHright = x + 1;
+      if(puntaHright < width){
+        //Aca modifico
+        var index2 = (puntaHright + y * width) * 4;
+        var r = dataRef[index + 0];
+        var g = dataRef[index + 1];
+        var b = dataRef[index + 2];
+        var gray = (r + g + b)/3;
+
+        var r2 = dataRef[index2 + 0];
+        var g2 = dataRef[index2 + 1];
+        var b2 = dataRef[index2 + 2];
+        var gray2 = (r2 + g2 + b2)/3;
+
+        var dif = gray2 - gray;
+        if(dif < 0){
+          //gray mas grande
+          dif *= -1;
+          if(dif > gamaBorde){//Soy un borde
+            dataMod[index + 0] = r;
+            dataMod[index + 1] = g;
+            dataMod[index + 2] = b;
+            dataMod[index + 3] = dataRef[index + 3];
+            dataMod[index2 + 0] = "#000000";
+            dataMod[index2 + 1] = "#000000";
+            dataMod[index2 + 2] = "#000000";
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+          }else{
+            dataMod[index + 0] = "#000000";
+            dataMod[index + 1] = "#000000";
+            dataMod[index + 2] = "#000000";
+            dataMod[index + 3] = dataRef[index + 3];
+            dataMod[index2 + 0] = "#000000";
+            dataMod[index2 + 1] = "#000000";
+            dataMod[index2 + 2] = "#000000";
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+          }
+        }else{
+          if(dif > gamaBorde){
+            dataMod[index2 + 0] = r;
+            dataMod[index2 + 1] = g;
+            dataMod[index2 + 2] = b;
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+            dataMod[index + 0] = "#000000";
+            dataMod[index + 1] = "#000000";
+            dataMod[index + 2] = "#000000";
+            dataMod[index + 3] = dataRef[index + 3];
+          }else{
+            dataMod[index + 0] = "#000000";
+            dataMod[index + 1] = "#000000";
+            dataMod[index + 2] = "#000000";
+            dataMod[index + 3] = dataRef[index + 3];
+            dataMod[index2 + 0] = "#000000";
+            dataMod[index2 + 1] = "#000000";
+            dataMod[index2 + 2] = "#000000";
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+          }
+        }
       }
     }
   }
-ctx.putImageData(imageData, 0, 0);
 }
+
+function DectecionBordeV(imageRef, imageMod, gamaBorde){
+  dataRef = imageRef.data;
+  dataMod = imageMod.data;
+  for(x=0; x<width; x++){
+    for (y=0; y<height; y++){
+      var index = (x + y * width) * 4;
+      var puntaVdown = y + 1;
+      if(puntaVdown < height){
+        //Aca modifico
+        var index2 = (x + puntaVdown * width) * 4;
+        var r = dataRef[index + 0];
+        var g = dataRef[index + 1];
+        var b = dataRef[index + 2];
+        var gray = (r + g + b)/3;
+
+        var r2 = dataRef[index2 + 0];
+        var g2 = dataRef[index2 + 1];
+        var b2 = dataRef[index2 + 2];
+        var gray2 = (r2 + g2 + b2)/3;
+
+        var dif = gray2 - gray;
+        if(dif < 0){
+          //gray mas grande
+          dif *= -1;
+          if(dif > gamaBorde){//Soy un borde
+            dataMod[index + 0] = r;
+            dataMod[index + 1] = g;
+            dataMod[index + 2] = b;
+            dataMod[index + 3] = dataRef[index + 3];
+            dataMod[index2 + 0] = "#000000";
+            dataMod[index2 + 1] = "#000000";
+            dataMod[index2 + 2] = "#000000";
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+          }else{
+            dataMod[index + 0] = "#000000";
+            dataMod[index + 1] = "#000000";
+            dataMod[index + 2] = "#000000";
+            dataMod[index + 3] = dataRef[index + 3];
+            dataMod[index2 + 0] = "#000000";
+            dataMod[index2 + 1] = "#000000";
+            dataMod[index2 + 2] = "#000000";
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+          }
+        }else{
+          if(dif > gamaBorde){
+            dataMod[index2 + 0] = r;
+            dataMod[index2 + 1] = g;
+            dataMod[index2 + 2] = b;
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+            dataMod[index + 0] = "#000000";
+            dataMod[index + 1] = "#000000";
+            dataMod[index + 2] = "#000000";
+            dataMod[index + 3] = dataRef[index + 3];
+          }else{
+            dataMod[index + 0] = "#000000";
+            dataMod[index + 1] = "#000000";
+            dataMod[index + 2] = "#000000";
+            dataMod[index + 3] = dataRef[index + 3];
+            dataMod[index2 + 0] = "#000000";
+            dataMod[index2 + 1] = "#000000";
+            dataMod[index2 + 2] = "#000000";
+            dataMod[index2 + 3] = dataRef[index2 + 3];
+          }
+        }
+      }
+    }
+  }
+}
+
+function DectecionBorde(){
+  var pot = document.getElementById("sliderDectBordes").value;
+  var imageRef = ctx.getImageData(0, 0, width, height);
+  var imageMod = ctx.getImageData(0, 0, width, height);
+  var gamaBorde = pot;//borde minimo, acordate que actua con referencia a la dif
+  DectecionBordeH(imageRef, imageMod, gamaBorde);
+  DectecionBordeV(imageRef, imageMod, gamaBorde);
+  ctx.putImageData(imageMod, 0, 0);
+}
+
+// function DectecionBorde(){
+//   escalaGrises();
+//   imageData = ctx.getImageData(0, 0, width, height);
+//   data = imageData.data;
+//   porc = 40;
+//   grosorBorde = 255 * porc/ 100;
+//   for(x=0; x<width; x++){
+//     for (y=0; y<height; y++){
+//       var index = (x + y * width) * 4;
+//       var r = data[index + 0];
+//       var g = data[index + 1];
+//       var b = data[index + 2];
+//       var a = data[index + 3];
+//       var gris = (r + g + b) / 3;
+//       if(gris > grosorBorde){
+//         data[index + 0] = 0;
+//         data[index + 1] = 0;
+//         data[index + 2] = 0;
+//         data[index + 3] = a;
+//       }else{
+//         data[index + 0] = 255;
+//         data[index + 1] = 255;
+//         data[index + 2] = 255;
+//         data[index + 3] = a;
+//       }
+//     }
+//   }
+// ctx.putImageData(imageData, 0, 0);
+// }
 
 //------------------------------------------
 
