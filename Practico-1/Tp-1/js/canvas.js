@@ -9,6 +9,8 @@ var color = "#000000";
 var grosor = 3;
 var pintar = false;
 
+//https://leiva-j.github.io/Visualizacion-e-Interfaces/Practico-1/Tp-1/index.html
+
 document.getElementById("myPencil").addEventListener("click", choicePencil);
 document.getElementById("myErase").addEventListener("click", choiceErase);
 
@@ -16,10 +18,16 @@ document.getElementById("bBlack").addEventListener("click", function(e){choiceCo
 document.getElementById("bRed").addEventListener("click", function(e){choiceColor("red")});
 document.getElementById("bGreen").addEventListener("click", function(e){choiceColor("green")});
 document.getElementById("bBlue").addEventListener("click", function(e){choiceColor("blue")});
+document.getElementById("bYellow").addEventListener("click", function(e){choiceColor("yellow")});
+document.getElementById("bGray").addEventListener("click", function(e){choiceColor("gray")});
+document.getElementById("bOrange").addEventListener("click", function(e){choiceColor("orange")});
+document.getElementById("bBrown").addEventListener("click", function(e){choiceColor("brown")});
+document.getElementById("bPink").addEventListener("click", function(e){choiceColor("pink")});
+document.getElementById("bPurple").addEventListener("click", function(e){choiceColor("purple")});
 
 document.getElementById("newFile").addEventListener("click", newFile);
 document.getElementById("i_file").addEventListener("click", loadImg);
-document.getElementById("loadImgFija").addEventListener("click", loadImgFija);
+//document.getElementById("loadImgFija").addEventListener("click", loadImgFija);
 document.getElementById("saveImg").addEventListener("click", saveImg, false);
 
 document.getElementById("fEscalaGrises").addEventListener("click", escalaGrises);
@@ -27,7 +35,7 @@ document.getElementById("fNegativo").addEventListener("click", Negativo);
 document.getElementById("fBrillo").addEventListener("click", Brillo);
 document.getElementById("fBinarizacion").addEventListener("click", Binarizacion);
 document.getElementById("fSepia").addEventListener("click", Sepia);
-document.getElementById("fBlur").addEventListener("click", Blur);
+//document.getElementById("fBlur").addEventListener("click", Blur);
 document.getElementById("fBlurManopla").addEventListener("click", BlurManopla);
 document.getElementById("fDectecionBorde").addEventListener("click", DectecionBorde);
 
@@ -44,6 +52,7 @@ document.getElementById("canvas").addEventListener("mousemove", function(e){
     }else{
       ctx.strokeStyle = color;
       ctx.lineWidth = grosor;
+      ctx.lineCap = "round";
       ctx.beginPath();
       ctx.moveTo(x,y);
       ctx.lineTo(e.layerX, e.layerY);
@@ -76,7 +85,7 @@ function choicePencil(){
 
 function choiceErase(){
   color = "#ffffff";
-  grosor = document.getElementById('sliderGrosor').value;
+  grosor = document.getElementById('sliderErase').value;
   grosor = parseInt(grosor);
 }
 
@@ -131,7 +140,7 @@ function saveImg(){
   var canvas = document.getElementById("canvas");
   var imagen = canvas.toDataURL("image/png");
   this.href = imagen;
-  newFile();
+  //newFile();
 }
 
 function loadImgFija(){

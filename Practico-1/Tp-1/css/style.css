@@ -4,6 +4,7 @@ body {
 
 button{
   margin: 2px;
+  width: 150px;
 }
 
 button:hover {
@@ -26,6 +27,14 @@ table, th, td {
   background-image: url("Tablero.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  margin-top: 50px;
+  padding: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.slidecontainer{
+  padding-left: 15px;
+  width: 145px;
 }
 
 .navs{
