@@ -1,0 +1,31 @@
+body{
+  background-image: url("https://lh3.googleusercontent.com/-iIRRTf-S67Q/VfgzmY6XmXI/AAAAAAAAEOw/FnMrUXQqzB0sH33FYEXj8F8MBR5SXN6QwCJoC/w2048-h1152/51b6e3abac2c433858.jpg");
+  background-color: black;
+  font-style: italic;
+  font-size: 30px;
+  color: #b2b200;
+}
+
+a{
+  font-style: italic;
+  font-size: 50px;
+  color: #b2b200;
+}
+
+.appSize{
+  width: 1200px;
+  background-image: url("https://k42.kn3.net/taringa/1/8/8/7/5/3/36/odahn/CED.jpg?7402");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: 50px;
+  padding: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.j1{
+  padding-left: 50px;
+}
+
+.j2{
+  padding-right: 10px;
+}
