@@ -79,7 +79,7 @@ document.getElementById("canvas").addEventListener("mousedown", function(e){
 				jugadaCompletada = false;
 				jugador1.borrarFicha(e.layerX, e.layerY, ctx);
       }else
-      document.getElementById("Turnos").innerHTML = 'Agarra la ficha, gil!';
+      document.getElementById("Turnos").innerHTML = 'No selecionaste una ficha';
     }
   }else
   if((!JuegoTerminado) && (e.layerX > tableroW + jugadorW) && (e.layerX < tableroW + jugadorW*2) &&
@@ -93,7 +93,7 @@ document.getElementById("canvas").addEventListener("mousedown", function(e){
 				jugadaCompletada = false;
 				jugador2.borrarFicha(e.layerX, e.layerY, ctx);
       }else
-      document.getElementById("Turnos").innerHTML = 'Agarra la ficha, gil!';
+      document.getElementById("Turnos").innerHTML = 'No selecionaste una ficha';
     }
   }
 });

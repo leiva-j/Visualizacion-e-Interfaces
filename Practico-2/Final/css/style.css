@@ -12,6 +12,10 @@ a{
   color: #b2b200;
 }
 
+.noMires{
+  opacity: 0;
+}
+
 .appSize{
   width: 1200px;
   background-image: url("https://k42.kn3.net/taringa/1/8/8/7/5/3/36/odahn/CED.jpg?7402");

@@ -96,13 +96,28 @@ class tablero{
   }
 
   checkearGanador(){
+    console.log("---");
     if(this.checkearWinH() != seguir){
       return this.checkearWinH();
     }else{
       if(this.checkearWinV() != seguir){
         return this.checkearWinV();
       }else{
-        return seguir;
+        if(this.checkearWinDiagD(1) != seguir){
+          return this.checkearWinDiagD(1);
+        }
+        if(this.checkearWinDiagD(2) != seguir){
+          return this.checkearWinDiagD(2);
+        }
+        if(this.checkearWinDiagI(1) != seguir){
+          return this.checkearWinDiagI(1);
+        }
+        if(this.checkearWinDiagI(2) != seguir){
+          return this.checkearWinDiagI(2);
+        }
+        else{
+          return seguir;
+        }
       }
     }
   }
@@ -113,6 +128,10 @@ class tablero{
     let  h2 = 0;
     for(let x = 0; x < this.colum; x++){
       let index = (x + y * this.colum);
+      if(this.matriz[index] == 0){ //Espacio en negro
+        h1= 0;
+        h2= 0;
+      }
       if (this.matriz[index] == 1){
         h1++;
         h2 = 0;
@@ -148,6 +167,101 @@ class tablero{
     }
   return seguir;
   }
+
+  checkearWinDiagD(ficha){
+    for(let x = 0; x < this.colum; x++){
+      for(let y = 0; y < this.fila; y++){
+      let index = (x + y * this.colum);
+        if (this.matriz[index] == ficha){
+          let x2 = x;
+          let cont = 0;
+          for(let y2 = y; y2 < this.fila; y2++){
+            index = (x2 + y2 * this.colum);
+            if(this.matriz[index] == ficha){
+              cont++;
+              if(cont == 4){return ficha;}
+            }else{
+              cont = 0;
+            }
+            x2++;
+          }
+
+        }
+      }
+    }
+    return seguir;
+  }
+
+  checkearWinDiagI(ficha){
+    for(let x = this.colum - 1; x >= 0 ; x--){
+      for(let y = 0; y < this.fila; y++){
+      let index = (x + y * this.colum);
+        if (this.matriz[index] == ficha){
+          let x2 = x;
+          let cont = 0;
+          console.log("-----");
+          for(let y2 = y; y2 < this.fila; y2++){
+            index = (x2 + y2 * this.colum);
+            if(this.matriz[index] == ficha){
+              cont++;
+              console.log(cont);
+              if(cont == 4){return ficha;}
+            }else{
+              cont = 0;
+            }
+            x2--;
+          }
+
+        }
+      }
+    }
+    return seguir;
+  }
+
+  // checkearWinDiag(){
+  // let xRef = 0;
+  //   for(let y = 0; y < this.fila; y++){
+  //   let  d1 = 0;
+  //   let  d2 = 0;
+  //   let x = xRef;
+  //   if(x == 0){
+  //     for(let y2 = y; y2 < this.fila; y2++){
+  //       let index = (x + y2 * this.colum);
+  //       if(this.matriz[index] == 0){ //Espacio en negro
+  //         d1= 0;
+  //         d2= 0;
+  //       }
+  //       if (this.matriz[index] == 1){
+  //         d1++;
+  //         d2 = 0;
+  //         if(d1 == 4){return winJ1;}
+  //       }
+  //       x+=1;
+  //     }
+  //   }else{
+  //     for(let y2 = y; y2 < this.fila; y2++){
+  //       let index = (x + y2 * this.colum);
+  //       if(this.matriz[index] == 0){ //Espacio en negro
+  //         d1= 0;
+  //         d2= 0;
+  //       }
+  //       if (this.matriz[index] == 2){
+  //         d2++;
+  //         d1 = 0;
+  //         if(d2 == 4){return winJ2;}
+  //       }
+  //       x-=1;
+  //     }
+  //   }
+  //   console.log(d1 + ", " + d2);
+  //   //console.log(d2);
+  //   if(xRef == 0){
+  //     xRef = this.colum - 1;
+  //     y = 0;
+  //     }
+  //   }
+  // return seguir;
+  // }
 
   getUse(){return this.jugando;}
 }
