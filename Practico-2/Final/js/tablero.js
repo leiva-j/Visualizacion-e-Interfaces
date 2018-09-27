@@ -96,7 +96,6 @@ class tablero{
   }
 
   checkearGanador(){
-    console.log("---");
     if(this.checkearWinH() != seguir){
       return this.checkearWinH();
     }else{
@@ -199,12 +198,10 @@ class tablero{
         if (this.matriz[index] == ficha){
           let x2 = x;
           let cont = 0;
-          console.log("-----");
           for(let y2 = y; y2 < this.fila; y2++){
             index = (x2 + y2 * this.colum);
             if(this.matriz[index] == ficha){
               cont++;
-              console.log(cont);
               if(cont == 4){return ficha;}
             }else{
               cont = 0;
@@ -253,8 +250,6 @@ class tablero{
   //       x-=1;
   //     }
   //   }
-  //   console.log(d1 + ", " + d2);
-  //   //console.log(d2);
   //   if(xRef == 0){
   //     xRef = this.colum - 1;
   //     y = 0;
